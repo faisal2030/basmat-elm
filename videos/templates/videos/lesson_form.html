@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+  .form-card {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 20px;
+    border: 3px solid #3B82F6;
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+    background-color: #f9f9ff;
+  }
+
+  h2 {
+    color: #3B82F6;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  label {
+    font-weight: bold;
+    color: #1e3a8a;
+  }
+
+  input[type="text"],
+  input[type="url"],
+  textarea,
+  input[type="file"],
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+  }
+
+  .btn-success {
+    background-color: #10b981;
+    border: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+
+  .btn-secondary {
+    background-color: #6b7280;
+    border: none;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin-right: 10px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-card">
+  <h2>{{ form_title }}</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="text-center">
+      <button type="submit" class="btn btn-success">💾 حفظ</button>
+      <a href="{% url 'lesson_list' %}" class="btn btn-secondary">↩️ رجوع</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

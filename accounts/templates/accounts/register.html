@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>التسجيل</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to left, #e3f2fd, #bbdefb);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .register-container {
+      background: #fff;
+      padding: 35px 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      border-top: 6px solid #1976d2;
+    }
+
+    .register-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #1976d2;
+      font-weight: bold;
+    }
+
+    label {
+      font-weight: 600;
+      color: #444;
+      display: block;
+      margin-bottom: 5px;
+      margin-top: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      transition: 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #1976d2;
+      outline: none;
+      box-shadow: 0 0 5px rgba(25, 118, 210, 0.3);
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 25px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0d47a1;
+    }
+
+    .errorlist {
+      color: #b71c1c;
+      background-color: #ffcdd2;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      list-style: none;
+    }
+
+    .errorlist li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>📝 إنشاء حساب جديد</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <label>اسم المستخدم</label>
+      {{ form.username }}
+      {{ form.username.errors }}
+
+      <label>البريد الإلكتروني</label>
+      {{ form.email }}
+      {{ form.email.errors }}
+
+      <label>كلمة المرور</label>
+      {{ form.password }}
+      {{ form.password.errors }}
+
+      <label>تأكيد كلمة المرور</label>
+      {{ form.confirm_password }}
+      {{ form.confirm_password.errors }}
+
+      <button type="submit">تسجيل</button>
+    </form>
+  </div>
+</body>
+</html>

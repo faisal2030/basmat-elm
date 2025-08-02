@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #eaf4ff; /* خلفية زرقاء فاتحة لكل الصفحة */
+  }
+  .table thead {
+    background-color: #007bff; /* رأس الجدول أزرق */
+    color: white;
+  }
+  .table td, .table th {
+    vertical-align: middle;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+  }
+</style>
+
+<div class="container">
+  <div class="card shadow-lg p-4" style="border-radius: 12px;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="mb-0">إدارة المستخدمين 👥</h2>
+      <a href="{% url 'register' %}" class="btn btn-success">➕ إضافة مستخدم جديد</a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered text-center align-middle">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>اسم المستخدم</th>
+            <th>البريد الإلكتروني</th>
+            <th>تعديل</th>
+            <th>حذف</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <a href="{% url 'edit_user' user.id %}" class="btn btn-sm btn-outline-primary">✏️ تعديل</a>
+            </td>
+            <td>
+              {% if user != request.user %}
+              <a href="{% url 'delete_user' user.id %}" class="btn btn-sm btn-outline-danger"
+                 onclick="return confirm('هل أنت متأكد من حذف هذا المستخدم؟');">🗑️ حذف</a>
+              {% else %}
+              <span class="text-muted">لا يمكن حذف نفسك</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

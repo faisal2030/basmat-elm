@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}مشاهدة الدروس{% endblock %}
+
+{% block head %}
+<style>
+  .lessons-title {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #0d47a1; /* أزرق داكن */
+  }
+
+  .table-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  .lessons-table {
+    width: 90%;
+    max-width: 1100px;
+    border-collapse: collapse;
+    background-color: #f9f9ff;
+    box-shadow: 0 0 10px rgba(13, 71, 161, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .lessons-table th,
+  .lessons-table td {
+    border: 3px solid #0d47a1;
+    padding: 14px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 17px;
+    font-weight: 600;
+    color: #0d47a1;
+  }
+
+  .lessons-table th {
+    background-color: #0d47a1;
+    color: white;
+    font-size: 18px;
+  }
+
+  .lessons-table td video {
+    width: 320px;
+    height: 180px;
+    object-fit: cover; /* لتقصيص الفيديو وتعبئة الإطار بدون تشويه */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+  .btn-back {
+    display: inline-block;
+    margin: 40px auto 0;
+    background-color: #0d47a1;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+
+  .btn-back:hover {
+    background-color: #08306b;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2 class="lessons-title">🎥 قائمة الدروس المتاحة</h2>
+
+  {% if lessons %}
+    <div class="table-wrapper">
+      <table class="lessons-table">
+        <thead>
+          <tr>
+            <th>عنوان الدرس</th>
+            <th>الوصف</th>
+            <th>الفيديو</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lesson in lessons %}
+          <tr>
+            <td>{{ lesson.title }}</td>
+            <td>{{ lesson.description }}</td>
+            <td>
+              {% if lesson.video_file %}
+                <video controls>
+                  <source src="{{ lesson.video_file.url }}" type="video/mp4">
+                  متصفحك لا يدعم تشغيل الفيديو.
+                </video>
+              {% else %}
+                <span class="text-danger">لا يوجد فيديو</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-center mt-4">لا توجد دروس حاليًا.</p>
+  {% endif %}
+
+  <div class="text-center">
+    <a href="/" class="btn-back">🔙 الرجوع إلى الرئيسية</a>
+  </div>
+</div>
+{% endblock %}

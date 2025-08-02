@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h2 class="text-success">✅ تم تسجيل الخروج بنجاح</h2>
+    <p class="lead">شكراً لاستخدامك للموقع.</p>
+    <a href="{% url 'login' %}" class="btn btn-primary mt-3">🔐 تسجيل الدخول مرة أخرى</a>
+</div>
+{% endblock %}

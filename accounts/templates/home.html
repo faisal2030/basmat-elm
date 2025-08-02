@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}الصفحة الرئيسية{% endblock %}
+
+{% block head %}
+<style>
+  .welcome-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 75vh;
+  }
+
+  .welcome-card {
+    border-radius: 20px;
+    border: 3px solid #0d47a1;
+    box-shadow: 0 8px 25px rgba(13, 71, 161, 0.2);
+    background-color: #f1f8ff;
+    padding: 50px 30px;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .welcome-card h1 {
+    color: #0d47a1;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .welcome-card p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 30px;
+  }
+
+  .btn-custom {
+    background-color: #0d47a1;
+    color: white;
+    border-radius: 10px;
+    padding: 12px 25px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin: 8px;
+    transition: 0.3s;
+  }
+
+  .btn-custom:hover {
+    background-color: #08306b;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="welcome-wrapper">
+  <div class="welcome-card">
+    <h1>مرحبًا {{ request.user.username }} 👋</h1>
+
+    {% if request.user.is_staff %}
+      <p>أنت <strong>معلم (مدير)</strong>. هذه لوحة التحكم الخاصة بك.</p>
+      <a href="{% url 'manage_users' %}" class="btn btn-custom">إدارة الطلاب 👥</a>
+      <a href="{% url 'lesson_list' %}" class="btn btn-custom">إدارة الدروس 📚</a>
+    {% else %}
+      <p>أنت <strong>طالب</strong>. يسعدنا انضمامك إلينا في هذا البرنامج التعليمي 🎓</p>
+      <a href="{% url 'student_lesson_list' %}" class="btn btn-custom">مشاهدة الدروس 🎥</a>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}
