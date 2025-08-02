@@ -110,3 +110,6 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 209715200
 # ✅ تعطيل DEBUG تلقائيًا إذا كنا على Render
 if os.environ.get('RENDER'):
     DEBUG = False
+CSRF_TRUSTED_ORIGINS = [
+    "https://web-production-3d9d6.up.railway.app",
+]
