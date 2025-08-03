@@ -8,14 +8,19 @@ import dj_database_url  # ✅ تأكد إنه موجود في requirements.txt
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ✅ مفتاح سري (من Render)
+# ✅ مفتاح سري (من Railway أو Render)
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-secret-key")
 
-# ✅ وضع التصحيح (من Render)
+# ✅ وضع التصحيح (من Railway/Render)
 DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
 
 # ✅ السماح لجميع الهوستات أو تحديد الدومين لاحقًا
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(",")
+
+# ✅ أضف دومين Railway الخاص بك هنا لتفادي خطأ CSRF
+CSRF_TRUSTED_ORIGINS = [
+    "https://web-production-3d9d6.up.railway.app",  # عدّل هذا لدومين مشروعك Railway
+]
 
 # ✅ التطبيقات
 INSTALLED_APPS = [
@@ -29,13 +34,15 @@ INSTALLED_APPS = [
     'courses',
     'students',
     'videos',
+    'cloudinary',
+    'cloudinary_storage',  # ✅ لأجل رفع الفيديوهات والصور على Cloudinary
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ ملفات ثابتة
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ لملفات static
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,8 +63,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # ✅ احذف السطر التالي إذا ما عندك context_processors.site_name
-                # 'config.context_processors.site_name',
             ],
         },
     },
@@ -65,7 +70,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# ✅ قاعدة البيانات (PostgreSQL على Render أو SQLite محليًا)
+# ✅ قاعدة البيانات (PostgreSQL من Railway أو SQLite محليًا)
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get("DATABASE_URL", f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
@@ -95,11 +100,11 @@ LOCALE_PATHS = [BASE_DIR / 'locale']
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# ✅ Whitenoise لضغط الملفات
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# ✅ الملفات المرفوعة
+# ✅ الملفات المرفوعة عبر Cloudinary
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -107,9 +112,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DATA_UPLOAD_MAX_MEMORY_SIZE = 209715200  # 200 MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 209715200
 
-# ✅ تعطيل DEBUG تلقائيًا إذا كنا على Render
-if os.environ.get('RENDER'):
+# ✅ تعطيل DEBUG تلقائيًا عند النشر
+if os.environ.get('RAILWAY_ENVIRONMENT_NAME'):  # Railway يرسل هذا المتغير تلقائي
     DEBUG = False
-CSRF_TRUSTED_ORIGINS = [
-    "https://web-production-3d9d6.up.railway.app",
-]
