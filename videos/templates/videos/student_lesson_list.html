@@ -89,7 +89,9 @@
 
               <!-- شريط التقدم -->
               <div class="progress-container">
-                <div id="progress-bar-{{ lesson.id }}" class="progress-bar">0%</div>
+                <div id="progress-bar-{{ lesson.id }}" class="progress-bar">
+                  {{ lesson.progress|default:"0" }}%
+                </div>
               </div>
             {% else %}
               <p class="text-red-500 font-bold text-center mt-3">
