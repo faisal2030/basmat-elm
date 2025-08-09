@@ -1,21 +1,27 @@
 from django.db import models
 from django.conf import settings
-from students.models import Section  # تأكد أن التطبيق students موجود ومثبت
+from students.models import Section
+from cloudinary.models import CloudinaryField  # ✅ مهم
 
 class Lesson(models.Model):
     title = models.CharField(max_length=200, verbose_name="عنوان الدرس")
     description = models.TextField(verbose_name="وصف الدرس")
-    video_file = models.FileField(
-        upload_to='videos/',
+
+    # ✅ رفع الفيديو إلى Cloudinary كـ Video
+    video_file = CloudinaryField(
+        resource_type='video',
+        folder='videos',
         blank=True,
         null=True,
         verbose_name="ملف الفيديو"
     )
+
     external_link = models.URLField(
         blank=True,
         null=True,
         verbose_name="رابط خارجي (مثل YouTube أو Google Drive)"
     )
+
     section = models.ForeignKey(
         Section,
         on_delete=models.CASCADE,
@@ -48,7 +54,7 @@ class VideoProgress(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name="آخر تحديث")
 
     class Meta:
-        unique_together = ('user', 'lesson')  # 🛡️ يمنع التكرار
+        unique_together = ('user', 'lesson')
         verbose_name = "تقدم الفيديو"
         verbose_name_plural = "تقدم الفيديوهات"
 
