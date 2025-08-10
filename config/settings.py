@@ -13,7 +13,13 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-secret-key")
 DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
 
 # السماح بالمضيفين (يمكن تمرير قائمة مفصولة بفواصل من المتغير)
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(",")
+ALLOWED_HOSTS = [
+    "basmat-elm.up.railway.app"
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://basmat-elm.up.railway.app"
+]
 
 # CSRF Trusted Origins — نحاول قراءته تلقائيًا من Railway
 CSRF_TRUSTED_ORIGINS = []
